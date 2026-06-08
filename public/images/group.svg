@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 140" width="240" height="140">
+  <rect width="100%" height="100%" fill="#fff7ed"/>
+  <g transform="translate(20,20)">
+    <rect width="200" height="100" rx="10" fill="#fed7aa" stroke="#fb923c"/>
+    <text x="100" y="55" font-size="14" text-anchor="middle" fill="#7c2d12" font-family="sans-serif">Group image placeholder</text>
+  </g>
+</svg>
