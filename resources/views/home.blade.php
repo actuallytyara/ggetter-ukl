@@ -86,7 +86,7 @@
         </div>
 
         <div class="hero-image">
-            <img src="{{ asset('images/group.svg') }}" alt="Hero Image">
+            <img src="{{ asset('images/hero-custom.png') }}" alt="Hero Image">
         </div>
 
     </div>
@@ -117,7 +117,7 @@
                 <h2>About <span>Us</span></h2>
 
                 <p>
-                    Goalify helps users manage goals,
+                    GoalsGetter helps users manage goals,
                     track progress and build positive
                     habits through a simple and modern
                     productivity platform.

@@ -1,175 +1,158 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Goals Getter — Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: { 'avocado':'#A8C06A','avocado-light':'#EAF2D6','forest':'#12391f' },
-          fontFamily: { poppins:['Poppins','ui-sans-serif','system-ui'] }
-        }
-      }
-    }
-  </script>
-  <style>
-    .score-circle{width:72px;height:72px;border-radius:9999px;background:white;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals Getter - Dashboard Workspace</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
 </head>
-<body class="bg-avocado-light font-poppins text-forest min-h-screen">
-  <header class="bg-avocado px-6 py-4 shadow-sm">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <img src="{{ asset('images/logo.svg') }}" alt="logo" class="w-10 h-10">
-        <div class="font-bold text-white">Goals Getter</div>
-      </div>
-                        <nav class="flex items-center gap-6 text-white/90">
-                                <a href="/" class="hover:underline">HOME</a>
-                                <a href="/login" class="hover:underline">USER CENTER</a>
-                                <a href="/settings" class="hover:underline">SETTINGS</a>
-                                <form method="POST" action="/logout" class="inline">
-                                  @csrf
-                                  <button type="submit" class="hover:underline text-white/90 bg-transparent">LOGOUT</button>
-                                </form>
-                        </nav>
+<body class="bg-[#f4f7f0] min-h-screen text-gray-800">
+
+    <header class="bg-[#2d5a27] px-6 py-4 shadow-sm text-white">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-white text-[#2d5a27] p-1.5 rounded-lg font-bold text-xl">✓</div>
+                <div class="font-bold text-xl tracking-wide">Goals Getter</div>
+                <img src="{{ asset('images/Group 1.png') }}" alt="Goals Getter Logo" class="h-8 w-auto">
+            </div>
+            <nav class="flex items-center gap-6 text-white/90 font-medium">
+                <a href="/" class="hover:underline">HOME</a>
+                <a href="/dashboard" class="hover:underline border-b-2 border-white pb-1">USER CENTER</a>
+                <a href="/settings" class="hover:underline">SETTINGS</a>
+                <a href="/login" class="hover:underline">LOGOUT</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        
+        @if(session('success'))
+    <div class="mx-6 my-4 p-4 bg-green-100 text-green-800 rounded-2xl font-semibold text-sm">
+        {{ session('success') }}
     </div>
-  </header>
+@endif
 
-  <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <!-- Left column: goals list -->
-    <section class="lg:col-span-2 space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-white rounded-xl p-4 shadow">
-          <h4 class="text-sm text-gray-500">TODAY'S goals</h4>
-          <div class="mt-3 flex items-center justify-between">
-            <div>
-              <h3 class="font-bold">Focus: Design Review</h3>
-              <p class="text-xs text-gray-500">Nature & productivity tips</p>
+<div class="mx-6 my-6 grid grid-cols-1 md:grid-cols-2 gap-6 font-sans">
+    <div class="bg-white p-6 rounded-3xl shadow-sm">
+        <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wider mb-4">🎯 Add New Goal Space</h3>
+        <form action="{{ route('goals.store') }}" method="POST" class="space-y-3">
+            @csrf
+            <input type="text" name="title" required class="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none" placeholder="Goal Title (e.g., Learn Laravel)">
+            <div class="flex gap-2">
+                <select name="category" class="w-1/2 px-4 py-2 border border-gray-200 rounded-xl text-sm bg-white">
+                    <option value="Study">Study</option>
+                    <option value="Fitness">Fitness</option>
+                    <option value="Career">Career</option>
+                </select>
+                <input type="number" name="progress" min="0" max="100" value="0" class="w-1/2 px-4 py-2 border border-gray-200 rounded-xl text-sm" placeholder="Progress %">
             </div>
-            <img src="{{ asset('images/flower.svg') }}" alt="flower" class="w-20 h-20 object-cover rounded">
-          </div>
-        </div>
-
-        <div class="bg-white rounded-xl p-4 shadow">
-          <h4 class="text-sm text-gray-500">ACHIEVEMENT</h4>
-          <div class="mt-4 flex items-center justify-between">
-            <div>
-              <div class="text-2xl font-bold">{{ $achievement ?? '87%' }}</div>
-              <div class="text-xs text-gray-400">Productivity Score</div>
-            </div>
-            <div class="score-circle">{{ $achievement_number ?? '87' }}%</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Interactive goals spaces -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Study card -->
-        <div class="bg-white rounded-lg p-4 shadow">
-          <div class="flex items-center justify-between">
-            <div>
-              <h5 class="font-bold">Study</h5>
-              <div class="text-sm text-gray-500">Track exams and assignments.</div>
-            </div>
-            <svg width="48" height="48" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" stroke="#E6E6E6" stroke-width="4"/><circle cx="18" cy="18" r="16" stroke="#A8C06A" stroke-width="4" stroke-dasharray="100" stroke-dashoffset="40" transform="rotate(-90 18 18)"/></svg>
-          </div>
-          <div class="mt-4">
-            <div class="w-full bg-gray-100 h-3 rounded"><div class="h-3 bg-avocado rounded" style="width:60%"></div></div>
-          </div>
-        </div>
-
-        <!-- Fitness card -->
-        <div class="bg-white rounded-lg p-4 shadow">
-          <div class="flex items-center justify-between">
-            <div>
-              <h5 class="font-bold">Fitness</h5>
-              <div class="text-sm text-gray-500">Create healthy routines.</div>
-            </div>
-            <svg width="48" height="48" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" stroke="#E6E6E6" stroke-width="4"/><circle cx="18" cy="18" r="16" stroke="#A8C06A" stroke-width="4" stroke-dasharray="100" stroke-dashoffset="20" transform="rotate(-90 18 18)"/></svg>
-          </div>
-          <div class="mt-4">
-            <div class="w-full bg-gray-100 h-3 rounded"><div class="h-3 bg-avocado rounded" style="width:80%"></div></div>
-          </div>
-        </div>
-
-        <!-- Career card -->
-        <div class="bg-white rounded-lg p-4 shadow">
-          <div class="flex items-center justify-between">
-            <div>
-              <h5 class="font-bold">Career</h5>
-              <div class="text-sm text-gray-500">Develop your professional skills.</div>
-            </div>
-            <svg width="48" height="48" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" stroke="#E6E6E6" stroke-width="4"/><circle cx="18" cy="18" r="16" stroke="#A8C06A" stroke-width="4" stroke-dasharray="100" stroke-dashoffset="70" transform="rotate(-90 18 18)"/></svg>
-          </div>
-          <div class="mt-4">
-            <div class="w-full bg-gray-100 h-3 rounded"><div class="h-3 bg-avocado rounded" style="width:30%"></div></div>
-          </div>
-        </div>
-
-        <!-- Financial card -->
-        <div class="bg-white rounded-lg p-4 shadow">
-          <div class="flex items-center justify-between">
-            <div>
-              <h5 class="font-bold">Financial</h5>
-              <div class="text-sm text-gray-500">Manage saving targets.</div>
-            </div>
-            <svg width="48" height="48" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="18" r="16" stroke="#E6E6E6" stroke-width="4"/><circle cx="18" cy="18" r="16" stroke="#A8C06A" stroke-width="4" stroke-dasharray="100" stroke-dashoffset="55" transform="rotate(-90 18 18)"/></svg>
-          </div>
-          <div class="mt-4">
-            <div class="w-full bg-gray-100 h-3 rounded"><div class="h-3 bg-avocado rounded" style="width:45%"></div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Large motivational cards -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div class="bg-white rounded-lg p-4 shadow col-span-2">
-                                        <img src="{{ asset('images/office.svg') }}" alt="office" class="w-full h-36 object-cover rounded">
-                                        <p class="mt-3 text-sm text-gray-500">Productivity highlight — build consistent routines and focus sessions.</p>
-                                </div>
-                                <div class="bg-white rounded-lg p-4 shadow flex items-center justify-center">
-                                        <div class="text-center">
-                                                <div class="text-sm text-gray-500">Featured</div>
-                                                <div class="mt-2 font-bold">Productivity Tip</div>
-                                        </div>
-                                </div>
-                        </div>
-    </section>
-
-    <!-- Right column: form and quick actions -->
-    <aside class="space-y-6">
-      <div class="bg-white rounded-xl p-4 shadow">
-        <h4 class="font-bold">Log Quick Task</h4>
-        <form method="POST" action="#" class="mt-3 space-y-3">
-          <input type="text" name="task" placeholder="What did you complete?" class="w-full px-3 py-2 border rounded" />
-          <select name="category" class="w-full px-3 py-2 border rounded">
-            <option>Study</option>
-            <option>Fitness</option>
-            <option>Career</option>
-            <option>Financial</option>
-          </select>
-          <button class="w-full bg-forest text-white py-2 rounded">Add</button>
+            <button type="submit" class="w-full bg-[#2d5a27] text-white text-xs font-bold py-2 rounded-xl uppercase tracking-wider">Save Goal</button>
         </form>
-      </div>
+    </div>
 
-      <div class="bg-white rounded-xl p-4 shadow">
-        <h5 class="font-bold">Quick Stats</h5>
-        <div class="mt-3 grid grid-cols-2 gap-3">
-          <div class="p-3 bg-gray-50 rounded text-center">
-            <div class="text-sm text-gray-500">Goals</div>
-            <div class="font-bold">12</div>
-          </div>
-          <div class="p-3 bg-gray-50 rounded text-center">
-            <div class="text-sm text-gray-500">Habits</div>
-            <div class="font-bold">8</div>
-          </div>
+    <div class="bg-white p-6 rounded-3xl shadow-sm">
+        <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wider mb-4">👤 Add New Member</h3>
+        <form action="{{ route('users.store') }}" method="POST" class="space-y-3">
+            @csrf
+            <input type="text" name="name" required class="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none" placeholder="Full Name">
+            <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none" placeholder="Email Address">
+            <button type="submit" class="w-full bg-[#9fbb70] text-white text-xs font-bold py-2 rounded-xl uppercase tracking-wider">Register User</button>
+        </form>
+    </div>
+</div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Your Active Spaces</h3>
+                    <div class="space-y-4">
+                        @forelse($goals as $goal)
+                            <div class="flex justify-between items-center p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                <div>
+                                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-[#9fbb70] text-white uppercase">{{ $goal->category }}</span>
+                                    <h4 class="text-base font-bold text-gray-800 mt-1.5">{{ $goal->title }}</h4>
+                                    <div class="w-32 bg-gray-200 h-1.5 rounded-full mt-2">
+                                        <div class="bg-[#2d5a27] h-1.5 rounded-full" style="width: {{ $goal->progress }}%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-sm font-bold text-gray-500">{{ $goal->progress }}%</span>
+                                    <form action="{{ route('goals.delete', $goal->id) }}" method="POST" onsubmit="return confirm('Hapus goal ini?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:text-red-700 font-semibold text-sm cursor-pointer">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-gray-400 text-sm italic">Belum ada goals di space ini. Silakan buat di atas!</p>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">👤 Add New Member</h3>
+                    <form action="{{ route('users.store') }}" method="POST" class="space-y-4">
+                        @csrf
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Full Name</label>
+                                <input type="text" name="name" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-[#9fbb70]" placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Email Address</label>
+                                <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-[#9fbb70]" placeholder="john@example.com">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-[#9fbb70] hover:bg-opacity-90 text-white font-semibold py-2.5 rounded-xl transition-all shadow-sm cursor-pointer">
+                            Register User
+                        </button>
+                    </form>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">Active Users List</h3>
+                        <span class="bg-[#2d5a27] text-white text-xs px-3 py-1 rounded-full font-semibold">
+                            {{ $users->count() }} Users
+                        </span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-gray-100 text-gray-400 text-xs font-semibold uppercase tracking-wider">
+                                    <th class="pb-3">Name & Email</th>
+                                    <th class="pb-3 text-right">Action</th>
+                                </tr>
+                            </thead>
+                           <tbody class="text-gray-700 text-sm">
+    @forelse($users as $user)
+        <tr class="border-b border-gray-100">
+            <td class="py-3 px-4">{{ $user->id }}</td>
+            <td class="py-3 px-4 font-bold">{{ $user->name }}</td>
+            <td class="py-3 px-4 text-gray-500">{{ $user->email }}</td>
+            <td class="py-3 px-4 text-right">
+                <form action="{{ route('users.delete', $user->id) }}" method="POST" onsubmit="return confirm('Hapus user ini?')">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="text-red-500 hover:text-red-700 font-bold text-xs">Hapus</button>
+                </form>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="4" class="py-6 text-center text-gray-400 italic">Belum ada user terdaftar.</td>
+        </tr>
+    @endforelse
+</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
-    </aside>
-  </main>
+    </main>
+
 </body>
 </html>

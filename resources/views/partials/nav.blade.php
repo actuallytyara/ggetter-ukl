@@ -15,7 +15,7 @@
         <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
         @guest
           <li class="nav-item"><a class="btn btn-outline-success ms-2" href="{{ route('login') }}">Login</a></li>
-          <li class="nav-item"><a class="btn btn-success ms-2 text-white" href="{{ route('register') }}">Get Started</a></li>
+          <li class="nav-item"><a class="btn btn-success ms-2 text-white" href="#">Get Started</a></li>
         @else
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown">{{ Auth::user()->name ?? Auth::user()->email }}</a>
