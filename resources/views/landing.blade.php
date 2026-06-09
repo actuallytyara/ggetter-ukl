@@ -11,7 +11,7 @@
           <p class="lead text-muted">A clean, minimal productivity app to manage goals, habits, and daily tasks — inspired by Notion and Trello.</p>
           <div class="mt-4">
             <a href="{{ route('register') }}" class="btn btn-success btn-lg me-2">Get Started</a>
-            <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-lg">Login</a>
+            <a href="{{ route('goals.index') }}" class="btn btn-outline-secondary btn-lg">View Goals</a>
           </div>
         </div>
         <div class="col-lg-6 d-none d-lg-block">

@@ -15,9 +15,9 @@
     <header class="bg-[#2d5a27] px-6 py-4 shadow-sm text-white">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="bg-white text-[#2d5a27] p-1.5 rounded-lg font-bold text-xl">✓</div>
+                <img src="{{ asset('images/Group 1.png') }}" alt="Goals Getter Logo" class="h-10 w-10 object-contain">
                 <div class="font-bold text-xl tracking-wide">Goals Getter</div>
-                <img src="{{ asset('images/Group 1.png') }}" alt="Goals Getter Logo" class="h-8 w-auto">
+                
             </div>
             <nav class="flex items-center gap-6 text-white/90 font-medium">
                 <a href="/" class="hover:underline">HOME</a>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="flex items-center gap-3">
                                     <span class="text-sm font-bold text-gray-500">{{ $goal->progress }}%</span>
-                                    <form action="{{ route('goals.delete', $goal->id) }}" method="POST" onsubmit="return confirm('Hapus goal ini?')">
+                                    <form action="{{ route('goals.destroy', $goal->id) }}" method="POST" onsubmit="return confirm('Hapus goal ini?')">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="text-red-500 hover:text-red-700 font-semibold text-sm cursor-pointer">Delete</button>
                                     </form>
@@ -134,7 +134,7 @@
             <td class="py-3 px-4 font-bold">{{ $user->name }}</td>
             <td class="py-3 px-4 text-gray-500">{{ $user->email }}</td>
             <td class="py-3 px-4 text-right">
-                <form action="{{ route('users.delete', $user->id) }}" method="POST" onsubmit="return confirm('Hapus user ini?')">
+                <form action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Hapus user ini?')">
                     @csrf @method('DELETE')
                     <button type="submit" class="text-red-500 hover:text-red-700 font-bold text-xs">Hapus</button>
                 </form>

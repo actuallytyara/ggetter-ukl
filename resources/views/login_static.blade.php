@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,8 +24,7 @@
   <div class="w-full max-w-md">
     <div class="bg-white rounded-xl shadow p-8">
       <div class="flex justify-between items-center mb-4">
-        <a href="/" class="text-sm text-gray-600">Home</a>
-        <a href="/dashboard" class="text-sm text-forest font-medium">Dashboard</a>
+        <a href="/landing" class="text-sm text-gray-600">Home</a>
       </div>
       <div class="flex flex-col items-center">
         <div class="w-16 h-16 rounded-full bg-avocado flex items-center justify-center text-white text-2xl">👤</div>
@@ -55,7 +56,7 @@
 
       <div class="mt-4 text-center text-sm text-gray-600">
         <a href="#" class="underline">Forgot Password?</a>
-        <div class="mt-2">Don't have an account? <a href="#" class="text-forest font-semibold">Join now.</a></div>
+        <div class="mt-2">Don't have an account? <a href="/register" class="text-forest font-semibold">register now</a></div>
       </div>
     </div>
   </div>

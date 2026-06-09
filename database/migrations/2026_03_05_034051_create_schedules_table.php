@@ -22,12 +22,12 @@ return new class extends Migration
             $table->datetime('start_datetime');
             $table->datetime('end_datetime')->nullable();
             $table->tinyInteger('is_all_day')->default(0);
-            $table->enum('repeat_type', ['none', 'daily', 'weekly', 'monthly', 'yearly'])->default('none');
+            $table->enum('repeat_type', ['none', 'daily', 'weekly',  'monthly', 'yearly'])->default('none');
             $table->timestamps();
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
-            $table->foreign('task_id')->references('task_id')->on('tasks')->onDelete('set null');
-            $table->foreign('goal_id')->references('goal_id')->on('goals')->onDelete('set null');
-            $table->foreign('habit_id')->references('habit_id')->on('habits')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('set null');
+            $table->foreign('goal_id')->references('id')->on('goals')->onDelete('set null');
+            $table->foreign('habit_id')->references('id')->on('habits')->onDelete('set null');
         });
     }
 

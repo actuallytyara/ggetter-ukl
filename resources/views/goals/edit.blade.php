@@ -9,44 +9,34 @@
         @csrf
         @method('PUT')
         
-        <div class="form-group">
-            <label for="user_id">User</label>
-            <select name="user_id" id="user_id" required>
-                @foreach($users as $user)
-                    <option value="{{ $user->id }}" {{ $goal->user_id == $user->id ? 'selected' : '' }}>
-                        {{ $user->name }}
-                    </option>
-                @endforeach
-            </select>
+        <div class="form-group mb-3">
+            <label for="title">Goal title</label>
+            <input type="text" name="title" id="title" value="{{ $goal->title }}" class="form-control" required>
         </div>
-        
-        <div class="form-group">
-            <label for="category_id">Category</label>
-            <select name="category_id" id="category_id" required>
+
+        <div class="form-group mb-3">
+            <label for="category">Category</label>
+            <select name="category" id="category" class="form-select" required>
                 @foreach($categories as $category)
-                    <option value="{{ $category->id }}" {{ $goal->category_id == $category->id ? 'selected' : '' }}>
+                    <option value="{{ $category->nama }}" {{ $goal->category === $category->nama ? 'selected' : '' }}>
                         {{ $category->nama }}
                     </option>
                 @endforeach
             </select>
         </div>
-        
-        <div class="form-group">
-            <label for="judul">Judul</label>
-            <input type="text" name="judul" id="judul" value="{{ $goal->judul }}" required>
+
+        <div class="form-group mb-3">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" class="form-control" rows="3">{{ $goal->description }}</textarea>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="progress">Progress (%)</label>
+            <input type="number" name="progress" id="progress" min="0" max="100" value="{{ $goal->progress }}" class="form-control" required>
         </div>
         
-        <div class="form-group">
-            <label for="status">Status</label>
-            <select name="status" id="status" required>
-                <option value="pending" {{ $goal->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="in_progress" {{ $goal->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                <option value="completed" {{ $goal->status == 'completed' ? 'selected' : '' }}>Completed</option>
-            </select>
-        </div>
-        
-        <button type="submit" class="btn">Update</button>
-        <a href="{{ route('goals.index') }}" class="btn" style="background-color: #6c757d;">Cancel</a>
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="{{ route('goals.index') }}" class="btn btn-secondary ms-2">Cancel</a>
     </form>
 @endsection
 

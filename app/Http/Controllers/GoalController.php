@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Goal;
-use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -10,56 +10,84 @@ class GoalController extends Controller
 {
     public function index()
     {
-        $goals = Goal::with('user','category')->get();
+        $userId = session('user_id');
+        $goals = Goal::where('user_id', $userId)->get();
         return view('goals.index', compact('goals'));
     }
 
     public function create()
     {
-        $users = User::all();
-        $categories = Category::all();
+        $categories = $this->ensureCategories();
+        return view('goals.create', compact('categories'));
+    }
 
-        return view('goals.create', compact('users','categories'));
+    protected function ensureCategories()
+    {
+        if (!Category::count()) {
+            $defaultCategories = ['Health', 'Career', 'Personal', 'Learning', 'Finance'];
+            foreach ($defaultCategories as $name) {
+                Category::updateOrCreate(
+                    ['nama' => $name],
+                    ['deskripsi' => "Default category for {$name}"]
+                );
+            }
+        }
+
+        return Category::all();
     }
 
     public function store(Request $request)
     {
-        Goal::create([
-            'user_id' => $request->user_id,
-            'category_id' => $request->category_id,
-            'judul' => $request->judul,
-            'status' => $request->status
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'progress' => 'required|integer|min:0|max:100',
         ]);
 
-        return redirect('/goals');
+        $data = $request->only(['title', 'category', 'description', 'progress']);
+        $data['user_id'] = session('user_id');
+
+        Goal::create($data);
+
+        return redirect()->route('goals.index')->with('success', 'Goal successfully added.');
     }
 
     public function edit($id)
     {
         $goal = Goal::findOrFail($id);
-        $users = User::all();
-        $categories = Category::all();
+        if ($goal->user_id !== session('user_id')) {
+            abort(403);
+        }
+        $categories = $this->ensureCategories();
 
-        return view('goals.edit', compact('goal','users','categories'));
+        return view('goals.edit', compact('goal', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
         $goal = Goal::findOrFail($id);
 
-        $goal->update([
-            'user_id' => $request->user_id,
-            'category_id' => $request->category_id,
-            'judul' => $request->judul,
-            'status' => $request->status
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+            'progress' => 'required|integer|min:0|max:100',
         ]);
 
-        return redirect('/goals');
+        if ($goal->user_id !== session('user_id')) {
+            abort(403);
+        }
+
+        $goal->update($request->only(['title', 'category', 'description', 'progress']));
+
+        return redirect()->route('goals.index')->with('success', 'Goal updated successfully.');
     }
 
     public function destroy($id)
     {
         Goal::destroy($id);
-        return redirect('/goals');
+
+        return redirect()->route('goals.index')->with('success', 'Goal deleted successfully.');
     }
 }
