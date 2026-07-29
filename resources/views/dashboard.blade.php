@@ -7,7 +7,7 @@
     <div class="col-lg-3 mb-3">
       <div class="card shadow-sm sticky-top">
         <div class="card-body">
-          <h5 class="card-title">Hello, {{ Auth::user()->name ?? Auth::user()->email }}</h5>
+          <h5 class="card-title">Hello, {{ Auth::user()->name ?? Auth::user()?->email }}</h5>
           <p class="text-muted small">Welcome back — here's your overview for today.</p>
           <hr>
           <nav class="nav flex-column">
